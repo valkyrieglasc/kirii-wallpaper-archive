@@ -9,15 +9,82 @@ const noteHeader = document.getElementById('noteHeader');
 const noteBody = document.getElementById('noteBody');
 const minimizeButton = document.getElementById('minimizeNote');
 const scrollTopButton = document.getElementById('scrollTopButton');
+const previewOverlay = document.getElementById('previewOverlay');
+const previewImage = document.getElementById('previewImage');
+const previewCaption = document.getElementById('previewCaption');
+const customCursor = document.getElementById('customCursor');
 let isDragging = false;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
+let previewTimer = null;
+let previewVisible = false;
+let activePreviewCard = null;
 
 function updateColumns(value) {
     const safeValue = Math.max(1, Math.min(6, Number(value) || 3));
     gallery.style.setProperty('--columns', safeValue);
     columnRange.value = safeValue;
     columnValue.textContent = safeValue;
+}
+
+function hidePreview() {
+    if (previewTimer) {
+        window.clearTimeout(previewTimer);
+        previewTimer = null;
+    }
+
+    if (activePreviewCard) {
+        activePreviewCard.classList.remove('is-active');
+        activePreviewCard = null;
+    }
+
+    previewOverlay.classList.remove('is-visible');
+    previewVisible = false;
+}
+
+function showPreview(imageElement) {
+    const previewUrl = imageElement.dataset.previewUrl || `https://drive.google.com/thumbnail?id=${imageElement.dataset.imageId}&sz=w1400`;
+    const previewWidth = Math.min(window.innerWidth * 0.9, 760);
+    const previewHeight = Math.min(window.innerHeight * 0.85, 760);
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    const nextLeft = viewportWidth / 2;
+    const nextTop = viewportHeight / 2;
+
+    previewImage.src = previewUrl;
+    previewCaption.textContent = imageElement.alt || 'Wallpaper preview';
+    previewOverlay.style.width = `${previewWidth}px`;
+    previewOverlay.style.maxHeight = `${previewHeight}px`;
+    previewOverlay.style.left = `${nextLeft}px`;
+    previewOverlay.style.top = `${nextTop}px`;
+    previewOverlay.classList.add('is-visible');
+    previewVisible = true;
+}
+
+function bindGalleryInteractions() {
+    gallery.querySelectorAll('.card').forEach((card) => {
+        const imageElement = card.querySelector('img');
+
+        card.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (activePreviewCard === card) {
+                hidePreview();
+                return;
+            }
+
+            if (activePreviewCard) {
+                activePreviewCard.classList.remove('is-active');
+            }
+
+            activePreviewCard = card;
+            activePreviewCard.classList.add('is-active');
+
+            showPreview(imageElement);
+        });
+    });
 }
 
 function renderGallery(items) {
@@ -31,7 +98,7 @@ function renderGallery(items) {
 
         return `
             <article class="card" style="animation-delay:${index * 70}ms">
-                <img src="${previewUrl}" alt="${img.name}" loading="lazy">
+                <img src="${previewUrl}" alt="${img.name}" loading="lazy" data-image-id="${img.id}" data-preview-url="https://drive.google.com/thumbnail?id=${img.id}&sz=w1400">
                 <div class="card-info">
                     <span>${img.name}</span>
                     <a href="${img.url}" target="_blank" rel="noreferrer" class="download-btn">View</a>
@@ -39,6 +106,8 @@ function renderGallery(items) {
             </article>
         `;
     }).join('');
+
+    bindGalleryInteractions();
 }
 
 function filterWallpapers(query) {
@@ -141,6 +210,23 @@ function convertMarkdownToHtml(markdown) {
     closeList();
     return html;
 }
+
+document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+});
+
+window.addEventListener('pointermove', (event) => {
+    customCursor.style.left = `${event.clientX}px`;
+    customCursor.style.top = `${event.clientY}px`;
+
+    if (previewVisible) {
+        hidePreview();
+    }
+});
+
+window.addEventListener('pointerdown', () => {
+    hidePreview();
+});
 
 noteHeader.addEventListener('pointerdown', (event) => {
     if (event.target.closest('button')) {
