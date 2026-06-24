@@ -1,4 +1,5 @@
 <div align="center">
+<img width="2560" height="1440" alt="preview-img" src="https://github.com/user-attachments/assets/7e8d61c3-2704-4896-a620-29905a4b3436" />
 
 # Wallpaper Archive
 
