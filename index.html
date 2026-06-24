@@ -14,9 +14,9 @@
 
     <main class="shell">
         <header class="hero">
-            <p class="eyebrow">~/home/kirii/archive</p>
-            <h1>Wallpapers Archive</h1>
-            <p class="subtext">This is my wallpaper archive *⸜( •ᴗ• )⸝* | <strong>READ THE NOTE BEFORE CONTINUE !!!</strong></p>
+            <p class="eyebrow">// 📂 | ~/home/kirii/archive</p>
+            <h1>// Wallpapers Archive</h1>
+            <p class="subtext">-- <strong>PLEASE READ THE NOTE BEFORE CONTINUE !!!</strong> --</p>
             <div class="toolbar">
                 <label class="search" for="searchInput">
                     <span class="icon">⌕</span>
@@ -32,9 +32,22 @@
         <div class="grid" id="gallery"></div>
     </main>
 
+    <footer class="site-footer">
+        <div class="site-footer__block">
+            <span class="site-footer__label">// contact:</span>
+            <p>[</p>
+            <a href="mailto:kirii@example.com">gmail</a>
+            <p>]———[</p>
+            <a href="https://www.instagram.com/kirii_ins" target="_blank" rel="noreferrer">instagram</a>
+            <p>]———[</p>
+            <a href="https://github.com/valkyrieglasc/kirii-wallpaper-archive.git" target="_blank" rel="noreferrer">github-repo</a>
+            <p>]</p>
+        </div>
+    </footer>
+
     <div class="note-window" id="noteWindow">
         <div class="note-header" id="noteHeader">
-            <div class="note-title">Note</div>
+            <div class="note-title">// 🗒️ Note</div>
             <div class="note-actions">
                 <button id="minimizeNote" type="button">─</button>
             </div>
@@ -45,6 +58,7 @@
     <button class="note-bubble" id="noteBubble" type="button">☰</button>
     <button class="scroll-top" id="scrollTopButton" type="button" aria-label="Back to top">⤒</button>
 
+    <div class="preview-backdrop" id="previewBackdrop" aria-hidden="true"></div>
     <div class="preview-overlay" id="previewOverlay" aria-hidden="true">
         <img id="previewImage" src="" alt="">
         <span class="preview-caption" id="previewCaption"></span>

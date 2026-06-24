@@ -9,6 +9,7 @@ const noteHeader = document.getElementById('noteHeader');
 const noteBody = document.getElementById('noteBody');
 const minimizeButton = document.getElementById('minimizeNote');
 const scrollTopButton = document.getElementById('scrollTopButton');
+const previewBackdrop = document.getElementById('previewBackdrop');
 const previewOverlay = document.getElementById('previewOverlay');
 const previewImage = document.getElementById('previewImage');
 const previewCaption = document.getElementById('previewCaption');
@@ -38,14 +39,15 @@ function hidePreview() {
         activePreviewCard = null;
     }
 
+    previewBackdrop.classList.remove('is-visible');
     previewOverlay.classList.remove('is-visible');
     previewVisible = false;
 }
 
 function showPreview(imageElement) {
     const previewUrl = imageElement.dataset.previewUrl || `https://drive.google.com/thumbnail?id=${imageElement.dataset.imageId}&sz=w1400`;
-    const previewWidth = Math.min(window.innerWidth * 0.9, 760);
-    const previewHeight = Math.min(window.innerHeight * 0.85, 760);
+    const previewWidth = Math.min(window.innerWidth * 0.95, 980);
+    const previewHeight = Math.min(window.innerHeight * 0.92, 980);
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
@@ -58,6 +60,7 @@ function showPreview(imageElement) {
     previewOverlay.style.maxHeight = `${previewHeight}px`;
     previewOverlay.style.left = `${nextLeft}px`;
     previewOverlay.style.top = `${nextTop}px`;
+    previewBackdrop.classList.add('is-visible');
     previewOverlay.classList.add('is-visible');
     previewVisible = true;
 }
@@ -65,8 +68,9 @@ function showPreview(imageElement) {
 function bindGalleryInteractions() {
     gallery.querySelectorAll('.card').forEach((card) => {
         const imageElement = card.querySelector('img');
+        const downloadButton = card.querySelector('.download-btn');
 
-        card.addEventListener('click', (event) => {
+        imageElement.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
 
@@ -84,6 +88,11 @@ function bindGalleryInteractions() {
 
             showPreview(imageElement);
         });
+
+        downloadButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
     });
 }
 
@@ -101,7 +110,7 @@ function renderGallery(items) {
                 <img src="${previewUrl}" alt="${img.name}" loading="lazy" data-image-id="${img.id}" data-preview-url="https://drive.google.com/thumbnail?id=${img.id}&sz=w1400">
                 <div class="card-info">
                     <span>${img.name}</span>
-                    <a href="${img.url}" target="_blank" rel="noreferrer" class="download-btn">View</a>
+                    <a href="${img.url}" target="_blank" rel="noreferrer" class="download-btn">Download</a>
                 </div>
             </article>
         `;
