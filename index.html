@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirii's Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="site-grid" aria-hidden="true"></div>
+
+    <main class="shell">
+        <header class="hero">
+            <p class="eyebrow">~/home/kirii/archive</p>
+            <h1>Wallpapers Archive</h1>
+            <p class="subtext">This is my wallpaper archive *⸜( •ᴗ• )⸝* | <strong>READ THE NOTE BEFORE CONTINUE !!!</strong></p>
+            <div class="toolbar">
+                <label class="search" for="searchInput">
+                    <span class="icon">⌕</span>
+                    <italic><input id="searchInput" type="text" placeholder="search archive" autocomplete="off">
+                </label>
+                <div class="column-control">
+                    <label for="columnRange">Cols</label>
+                    <input id="columnRange" type="range" min="1" max="6" value="3">
+                    <span id="columnValue" class="column-value">3</span>
+                </div>
+            </div>
+        </header>
+        <div class="grid" id="gallery"></div>
+    </main>
+
+    <div class="note-window" id="noteWindow">
+        <div class="note-header" id="noteHeader">
+            <div class="note-title">Note</div>
+            <div class="note-actions">
+                <button id="minimizeNote" type="button">─</button>
+            </div>
+        </div>
+        <div class="note-body" id="noteBody"></div>
+    </div>
+
+    <button class="note-bubble" id="noteBubble" type="button">☰</button>
+    <button class="scroll-top" id="scrollTopButton" type="button" aria-label="Back to top">⤒</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
