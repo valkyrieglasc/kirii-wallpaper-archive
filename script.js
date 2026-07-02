@@ -13,6 +13,7 @@ const previewBackdrop = document.getElementById('previewBackdrop');
 const previewOverlay = document.getElementById('previewOverlay');
 const previewImage = document.getElementById('previewImage');
 const previewCaption = document.getElementById('previewCaption');
+const previewHint = document.getElementById('previewHint');
 const customCursor = document.getElementById('customCursor');
 let isDragging = false;
 let dragOffsetX = 0;
@@ -41,6 +42,7 @@ function hidePreview() {
 
     previewBackdrop.classList.remove('is-visible');
     previewOverlay.classList.remove('is-visible');
+    previewHint.classList.remove('is-visible');
     previewVisible = false;
 }
 
@@ -62,6 +64,7 @@ function showPreview(imageElement) {
     previewOverlay.style.top = `${nextTop}px`;
     previewBackdrop.classList.add('is-visible');
     previewOverlay.classList.add('is-visible');
+    previewHint.classList.add('is-visible');
     previewVisible = true;
 }
 
@@ -110,7 +113,7 @@ function renderGallery(items) {
                 <img src="${previewUrl}" alt="${img.name}" loading="lazy" data-image-id="${img.id}" data-preview-url="https://drive.google.com/thumbnail?id=${img.id}&sz=w1400">
                 <div class="card-info">
                     <span>${img.name}</span>
-                    <a href="${img.url}" target="_blank" rel="noreferrer" class="download-btn">Download</a>
+                    <a href="${img.url}" target="_blank" rel="noreferrer" class="download-btn" style="color: #300385;">Download</a>
                 </div>
             </article>
         `;
@@ -227,14 +230,12 @@ document.addEventListener('contextmenu', (event) => {
 window.addEventListener('pointermove', (event) => {
     customCursor.style.left = `${event.clientX}px`;
     customCursor.style.top = `${event.clientY}px`;
-
-    if (previewVisible) {
-        hidePreview();
-    }
 });
 
 window.addEventListener('pointerdown', () => {
-    hidePreview();
+    if (previewVisible) {
+        hidePreview();
+    }
 });
 
 noteHeader.addEventListener('pointerdown', (event) => {
